@@ -1,192 +1,223 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import profilePic from './assets/profile.png';
 
-const SysHeader = () => {
-  const [time, setTime] = useState('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      const d = new Date();
-      setTime(d.toISOString().split('T')[1].split('.')[0]);
-    };
-    updateTime();
-    const int = setInterval(updateTime, 1000);
-    return () => clearInterval(int);
-  }, []);
-
-  return (
-    <div className="sys-header">
-      <div>
-        [ <span className="green">root@server</span> /home/sandeep ]
-      </div>
-      <div className="sys-nav">
-        <a href="#sys-info">SYS_INFO</a>
-        <a href="#sys-htop">SYS_RESOURCES</a>
-        <a href="#sys-dir">SYS_DIR</a>
-        <a href="#sys-mail">SYS_MAIL</a>
-      </div>
-      <div>
-        UPTIME: 99.9% | CLOCK: {time} | LOAD: 0.14 0.12 0.08
-      </div>
-    </div>
-  );
-};
-
-const SysHero = () => (
-  <div className="panel" id="sys-info">
-    <div className="panel-title">
-      <span>/var/log/sysinfo.log</span>
-      <span>chmod 644</span>
-    </div>
-    <div className="panel-content hero-grid">
-      <div className="hero-info">
-        <div className="sys-logs">
-          <div className="log-line"><span className="time">[14:00:23]</span> INIT: Starting Fullstack_Engineer_Daemon... [OK]</div>
-          <div className="log-line"><span className="time">[14:00:24]</span> LOAD: Fetching profile module... [OK]</div>
-          <div className="log-line"><span className="time">[14:00:25]</span> NET: Establishing connection to frontend... [OK]</div>
-        </div>
-        <h1>
-          export USER="<span>Sandeep</span>"<br />
-          export ROLE="<span>Fullstack Engineer</span>"
-        </h1>
-        <p style={{ color: 'var(--sys-muted)', marginTop: '1rem' }}>
-          /* Primary directive: Architect scalable Node.js clusters & React dashboards. <br />
-          Location: Cloud Sector (Remote). <br />
-          Status: Available for HTTP traffic. */
-        </p>
-      </div>
-      <div className="profile-img-container">
-        <img src={profilePic} alt="sys_admin_avatar" />
-      </div>
-    </div>
-  </div>
-);
-
-const SysHtop = () => {
-  const bars = [
-    { label: 'CPU 1 (React)', cls: 'cpu-1', pct: '95.0%' },
-    { label: 'CPU 2 (Node)', cls: 'cpu-2', pct: '88.3%' },
-    { label: 'CPU 3 (AWS)', cls: 'cpu-3', pct: '92.1%' },
-    { label: 'CPU 4 (SQL)', cls: 'cpu-4', pct: '85.4%' },
-    { label: 'CPU 5 (Vite)', cls: 'cpu-5', pct: '90.0%' },
-    { label: 'CPU 6 (Docker)', cls: 'cpu-6', pct: '80.2%' },
-  ];
-
-  return (
-    <div className="panel" id="sys-htop">
-      <div className="panel-title">
-        <span>htop - resource monitor</span>
-        <span>Tasks: 42, 1 thr, 110 kthr</span>
-      </div>
-      <div className="panel-content htop-grid">
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {bars.slice(0, 3).map((b, i) => (
-            <div className="htop-bar" key={i}>
-              <div className="bar-label">{b.label}</div>
-              <div className="bar-track"><div className={`bar-fill ${b.cls}`}></div></div>
-              <div className="bar-pct">{b.pct}</div>
-            </div>
-          ))}
-          <div style={{ marginTop: '1rem', color: 'var(--sys-muted)' }}>
-            Mem[|||||||||||||||||||      16.2G/32.0G]<br />
-            Swp[|                        0K/2.00G]
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {bars.slice(3, 6).map((b, i) => (
-            <div className="htop-bar" key={i}>
-              <div className="bar-label">{b.label}</div>
-              <div className="bar-track"><div className={`bar-fill ${b.cls}`}></div></div>
-              <div className="bar-pct">{b.pct}</div>
-            </div>
-          ))}
-          <div style={{ marginTop: '1rem', color: 'var(--sys-muted)' }}>
-            Uptime: 14 days, 03:22:12<br />
-            Load average: 0.14 0.12 0.08
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const SysDir = () => {
-  const projects = [
-    { perm: 'drwxr-xr-x', name: 'DevScale_Dashboard', size: '4.2K', desc: 'Real-time analytics dashboard rendering millions of rows natively. Tech: React, D3, Postgres', link: '#' },
-    { perm: 'drwxrwxr-x', name: 'EventFlow_API', size: '12K', desc: 'AWS Serverless API gateway handling robust transactional webhooks.', link: '#' },
-    { perm: 'drw-r--r--', name: 'Neural_Chat_UI', size: '8.1K', desc: 'Websocket-enabled frontend wrapper for raw LLMs with strict Redis caching layers.', link: '#' }
-  ];
-
-  return (
-    <div className="panel" id="sys-dir">
-      <div className="panel-title">
-        <span>ls -la /home/sandeep/projects</span>
-        <span>total 32</span>
-      </div>
-      <div className="panel-content dir-list">
-        <div className="dir-item">
-          <div className="dir-perms">drwxr-xr-x</div>
-          <div className="dir-name" style={{ color: "var(--sys-text)" }}>..</div>
-          <div className="dir-meta">root root <span style={{ marginLeft: '2rem' }}>4096</span></div>
-        </div>
-
-        {projects.map((p, i) => (
-          <div className="dir-item" key={i}>
-            <div className="dir-perms">{p.perm}</div>
-            <div className="dir-name">{p.name}</div>
-            <div className="dir-meta">sandeep users <span style={{ marginLeft: '1.5rem' }}>{p.size}</span></div>
-            <div className="dir-desc">{p.desc}</div>
-            <a href={p.link} className="btn-sys">./execute</a>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const SysMail = () => {
-  return (
-    <div className="panel" id="sys-mail">
-      <div className="panel-title">
-        <span>mailx - send messages</span>
-        <span>SMTP: ssl/tls</span>
-      </div>
-      <div className="panel-content" style={{ display: 'flex', justifyContent: 'center', padding: '3rem 1rem' }}>
-        <div className="contact-form">
-          <div style={{ marginBottom: '1rem', color: 'var(--sys-muted)' }}>
-            -- Execute mail daemon to contact sandeep --
-          </div>
-          <div className="input-line">
-            <span>To:</span>
-            <input type="text" className="sys-input" value="contact@sandeep.com" disabled />
-          </div>
-          <div className="input-line">
-            <span>From_Email:</span>
-            <input type="text" className="sys-input" placeholder="enter_your_email@domain.com" />
-          </div>
-          <div className="input-line">
-            <span>Subject:</span>
-            <input type="text" className="sys-input" placeholder="enter_subject_string" />
-          </div>
-          <button className="btn-action">SEND_PACKET &gt;&gt;</button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const App = () => {
+  const [activeTab, setActiveTab] = useState('Overview');
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Toggle Theme
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    if (!darkMode) document.body.classList.add('dark-mode');
+    else document.body.classList.remove('dark-mode');
+  };
+
+  const navTabs = ['Overview', 'Instances (Projects)', 'Compute (Skills)', 'Contact Details'];
+
   return (
-    <div className="layout">
-      <SysHeader />
-      <SysHero />
-      <SysHtop />
-      <SysDir />
-      <SysMail />
-      <div style={{ textAlign: 'center', color: 'var(--sys-muted)', fontSize: '0.8rem', marginTop: '1rem' }}>
-        System daemon built with React + Vite. All systems nominal.
+    <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
+
+      {/* Global Navigation Bar */}
+      <nav className="global-nav">
+        <div className="global-nav-left">
+          <div className="aws-logo">
+            aws <span className="aws-logo-smile">⌣</span>
+          </div>
+          <div className="nav-item">Services</div>
+          <div className="search-bar">🔍 Search for services, features, blogs, docs, and more...</div>
+        </div>
+
+        <div className="global-nav-right">
+          <div className="nav-item shell-icon">&gt;_</div>
+          <div className="nav-item bell-icon">🔔</div>
+          <div className="nav-item">sandeep-cloud-admin</div>
+          <div className="nav-item">Global</div>
+          <div className="nav-item">Support</div>
+          <span onClick={toggleTheme} className="nav-item" style={{ cursor: 'pointer' }}>
+            {darkMode ? '☀️' : '🌙'}
+          </span>
+        </div>
+      </nav>
+
+      {/* Service Header */}
+      <div className="service-nav">
+        Amazon Portfolio Service (APS)
+      </div>
+
+      <div className="main-wrapper">
+        {/* Sidebar */}
+        <aside className="sidebar">
+          <div className="sidebar-heading">APS Management</div>
+          <ul className="sidebar-menu">
+            {navTabs.map(tab => (
+              <li key={tab} className={`sidebar-item ${activeTab === tab ? 'active' : ''}`}>
+                <a href={`#${tab.split(' ')[0]}`} onClick={(e) => { e.preventDefault(); setActiveTab(tab); }}>{tab}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        {/* Content Area */}
+        <main className="content-area">
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">{activeTab.split(' ')[0]} dashboard</h1>
+              <p className="page-subtitle">Manage your Fullstack engineering resources and deployments.</p>
+            </div>
+            <div>
+              <button className="aws-btn" style={{ marginRight: '0.5rem' }}>Actions ▼</button>
+              <button className="aws-btn aws-btn-primary">Launch instance</button>
+            </div>
+          </div>
+
+          {activeTab === 'Overview' && (
+            <div className="aws-panel" id="Overview">
+              <div className="aws-panel-header">Engineer Resource details</div>
+              <div className="aws-panel-body">
+                <div className="profile-grid">
+                  <div>
+                    <img src={profilePic} alt="Profile" className="profile-pic" />
+                  </div>
+                  <div className="profile-details">
+                    <p>
+                      <strong>Sandeep — Fullstack Engineering Architect</strong><br />
+                      Providing scalable web application development, cloud deployment orchestration, and seamless frontend integrations.
+                    </p>
+                    <div className="prop-grid">
+                      <div>
+                        <div className="prop-label">Instance state</div>
+                        <div className="prop-value status-badge">Running</div>
+                      </div>
+                      <div>
+                        <div className="prop-label">Instance type</div>
+                        <div className="prop-value aws-link">t3.large-developer</div>
+                      </div>
+                      <div>
+                        <div className="prop-label">Location (Region)</div>
+                        <div className="prop-value">ap-south-1 (Remote)</div>
+                      </div>
+                      <div>
+                        <div className="prop-label">IAM Role</div>
+                        <div className="prop-value aws-link">AdminFullAccess</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'Compute (Skills)' && (
+            <div className="aws-panel" id="Compute">
+              <div className="aws-panel-header">Deployed Tech Stack details</div>
+              <div className="aws-panel-body">
+                <p style={{ marginBottom: '1.5rem', color: 'var(--aws-text)' }}>
+                  The following technology services are actively configured across development environments.
+                </p>
+                <div className="prop-grid">
+                  <div>
+                    <div className="prop-label">Frontend Capabilities</div>
+                    <div className="prop-value">
+                      <span className="resource-tag">React.js</span>
+                      <span className="resource-tag">Next.js</span>
+                      <span className="resource-tag">TypeScript</span>
+                      <span className="resource-tag">Redux</span>
+                      <span className="resource-tag">TailwindCSS</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="prop-label">Backend Architecture</div>
+                    <div className="prop-value">
+                      <span className="resource-tag">Node.js</span>
+                      <span className="resource-tag">Express.js</span>
+                      <span className="resource-tag">PostgreSQL</span>
+                      <span className="resource-tag">MongoDB</span>
+                      <span className="resource-tag">GraphQL</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="prop-label">Cloud Infrastructure</div>
+                    <div className="prop-value">
+                      <span className="resource-tag">AWS Lambda</span>
+                      <span className="resource-tag">API Gateway</span>
+                      <span className="resource-tag">S3</span>
+                      <span className="resource-tag">DynamoDB</span>
+                      <span className="resource-tag">EC2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'Instances (Projects)' && (
+            <div className="aws-panel" id="Instances">
+              <div className="aws-panel-header">Running Projects (3)</div>
+
+              <table className="aws-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: '30px' }}><input type="checkbox" /></th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Type / Stack</th>
+                    <th>Public IPv4 / Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" /></td>
+                    <td><a href="#" className="aws-link">DevScale-Monitoring-Dashboard</a></td>
+                    <td><span className="status-badge">Running</span></td>
+                    <td>React, Node, Postgres</td>
+                    <td><a href="#" className="aws-link">View Source</a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" /></td>
+                    <td><a href="#" className="aws-link">Serverless-Event-API-Gateway</a></td>
+                    <td><span className="status-badge">Running</span></td>
+                    <td>AWS Step Functions</td>
+                    <td><a href="#" className="aws-link">View Source</a></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" /></td>
+                    <td><a href="#" className="aws-link">Neural-Chat-LLM-Interface</a></td>
+                    <td><span className="status-badge">Running</span></td>
+                    <td>Next.js, Redis CACHE</td>
+                    <td><a href="#" className="aws-link">View Source</a></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style={{ padding: '1rem', borderTop: '1px solid var(--aws-border)' }}>
+                <button className="aws-btn aws-btn-primary">View all resource groups</button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'Contact Details' && (
+            <div className="aws-panel" id="Contact">
+              <div className="aws-panel-header">Contact Information & Support</div>
+              <div className="aws-panel-body">
+                <p style={{ marginBottom: '1rem' }}>
+                  Open a new technical support ticket or initiate a direct connection protocol to discuss opportunities.
+                </p>
+                <div className="prop-grid" style={{ marginBottom: '2rem' }}>
+                  <div>
+                    <div className="prop-label">Primary Email / Initial Contact</div>
+                    <div className="prop-value"><a href="mailto:hello@sandeepcloud.com" className="aws-link">hello@sandeepcloud.com</a></div>
+                  </div>
+                  <div>
+                    <div className="prop-label">GitHub Repository Link</div>
+                    <div className="prop-value"><a href="#" className="aws-link">github.com/sandeep</a></div>
+                  </div>
+                </div>
+                <button className="aws-btn aws-btn-primary">Create Support Case</button>
+              </div>
+            </div>
+          )}
+
+        </main>
       </div>
     </div>
   );
