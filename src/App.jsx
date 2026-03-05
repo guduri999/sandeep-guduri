@@ -1,226 +1,194 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import profilePic from './assets/profile.png';
 
-const Cursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [hidden, setHidden] = useState(false);
-  const [clicked, setClicked] = useState(false);
-  const [linkHovered, setLinkHovered] = useState(false);
+const SysHeader = () => {
+  const [time, setTime] = useState('');
 
   useEffect(() => {
-    const attachHandlers = () => {
-      document.querySelectorAll("a, button").forEach(el => {
-        el.addEventListener("mouseenter", () => setLinkHovered(true));
-        el.addEventListener("mouseleave", () => setLinkHovered(false));
-      });
+    const updateTime = () => {
+      const d = new Date();
+      setTime(d.toISOString().split('T')[1].split('.')[0]);
     };
-
-    attachHandlers();
-
-    const onMouseMove = (e) => setPosition({ x: e.clientX, y: e.clientY });
-    const onMouseEnter = () => setHidden(false);
-    const onMouseLeave = () => setHidden(true);
-    const onMouseDown = () => setClicked(true);
-    const onMouseUp = () => setClicked(false);
-
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseenter", onMouseEnter);
-    document.addEventListener("mouseleave", onMouseLeave);
-    document.addEventListener("mousedown", onMouseDown);
-    document.addEventListener("mouseup", onMouseUp);
-
-    return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseenter", onMouseEnter);
-      document.removeEventListener("mouseleave", onMouseLeave);
-      document.removeEventListener("mousedown", onMouseDown);
-      document.removeEventListener("mouseup", onMouseUp);
-    };
+    updateTime();
+    const int = setInterval(updateTime, 1000);
+    return () => clearInterval(int);
   }, []);
 
-  if (typeof navigator !== "undefined" && navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-    return null; // No custom cursor on mobile
-  }
-
-  const cursorClasses = `custom-cursor ${hidden ? "hidden" : ""} ${clicked ? "clicked" : ""} ${linkHovered ? "hover" : ""}`;
-
   return (
-    <div className={cursorClasses}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`
-      }}
-    />
+    <div className="sys-header">
+      <div>
+        [ <span className="green">root@server</span> /home/sandeep ]
+      </div>
+      <div className="sys-nav">
+        <a href="#sys-info">SYS_INFO</a>
+        <a href="#sys-htop">SYS_RESOURCES</a>
+        <a href="#sys-dir">SYS_DIR</a>
+        <a href="#sys-mail">SYS_MAIL</a>
+      </div>
+      <div>
+        UPTIME: 99.9% | CLOCK: {time} | LOAD: 0.14 0.12 0.08
+      </div>
+    </div>
   );
 };
 
-const MarqueeTop = () => (
-  <div className="marquee-container">
-    <div className="marquee">
-      <span>AVAILABLE FOR WORK</span>
-      <span>•</span>
-      <span>FULLSTACK ENGINEER</span>
-      <span>•</span>
-      <span>NODE.JS</span>
-      <span>•</span>
-      <span>REACT.JS</span>
-      <span>•</span>
-      <span>AWS CLOUD</span>
-      <span>•</span>
-      <span>OPEN TO OPPORTUNITIES</span>
-      <span>•</span>
-      <span>AVAILABLE FOR WORK</span>
-      <span>•</span>
-      <span>FULLSTACK ENGINEER</span>
-      <span>•</span>
-      <span>NODE.JS</span>
-      <span>•</span>
-      <span>REACT.JS</span>
+const SysHero = () => (
+  <div className="panel" id="sys-info">
+    <div className="panel-title">
+      <span>/var/log/sysinfo.log</span>
+      <span>chmod 644</span>
+    </div>
+    <div className="panel-content hero-grid">
+      <div className="hero-info">
+        <div className="sys-logs">
+          <div className="log-line"><span className="time">[14:00:23]</span> INIT: Starting Fullstack_Engineer_Daemon... [OK]</div>
+          <div className="log-line"><span className="time">[14:00:24]</span> LOAD: Fetching profile module... [OK]</div>
+          <div className="log-line"><span className="time">[14:00:25]</span> NET: Establishing connection to frontend... [OK]</div>
+        </div>
+        <h1>
+          export USER="<span>Sandeep</span>"<br />
+          export ROLE="<span>Fullstack Engineer</span>"
+        </h1>
+        <p style={{ color: 'var(--sys-muted)', marginTop: '1rem' }}>
+          /* Primary directive: Architect scalable Node.js clusters & React dashboards. <br />
+          Location: Cloud Sector (Remote). <br />
+          Status: Available for HTTP traffic. */
+        </p>
+      </div>
+      <div className="profile-img-container">
+        <img src={profilePic} alt="sys_admin_avatar" />
+      </div>
     </div>
   </div>
 );
 
-const Navbar = () => (
-  <nav className="nav-bar">
-    <a href="#" className="nav-logo">Sandeep.</a>
-    <div className="nav-links">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+const SysHtop = () => {
+  const bars = [
+    { label: 'CPU 1 (React)', cls: 'cpu-1', pct: '95.0%' },
+    { label: 'CPU 2 (Node)', cls: 'cpu-2', pct: '88.3%' },
+    { label: 'CPU 3 (AWS)', cls: 'cpu-3', pct: '92.1%' },
+    { label: 'CPU 4 (SQL)', cls: 'cpu-4', pct: '85.4%' },
+    { label: 'CPU 5 (Vite)', cls: 'cpu-5', pct: '90.0%' },
+    { label: 'CPU 6 (Docker)', cls: 'cpu-6', pct: '80.2%' },
+  ];
+
+  return (
+    <div className="panel" id="sys-htop">
+      <div className="panel-title">
+        <span>htop - resource monitor</span>
+        <span>Tasks: 42, 1 thr, 110 kthr</span>
+      </div>
+      <div className="panel-content htop-grid">
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {bars.slice(0, 3).map((b, i) => (
+            <div className="htop-bar" key={i}>
+              <div className="bar-label">{b.label}</div>
+              <div className="bar-track"><div className={`bar-fill ${b.cls}`}></div></div>
+              <div className="bar-pct">{b.pct}</div>
+            </div>
+          ))}
+          <div style={{ marginTop: '1rem', color: 'var(--sys-muted)' }}>
+            Mem[|||||||||||||||||||      16.2G/32.0G]<br />
+            Swp[|                        0K/2.00G]
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {bars.slice(3, 6).map((b, i) => (
+            <div className="htop-bar" key={i}>
+              <div className="bar-label">{b.label}</div>
+              <div className="bar-track"><div className={`bar-fill ${b.cls}`}></div></div>
+              <div className="bar-pct">{b.pct}</div>
+            </div>
+          ))}
+          <div style={{ marginTop: '1rem', color: 'var(--sys-muted)' }}>
+            Uptime: 14 days, 03:22:12<br />
+            Load average: 0.14 0.12 0.08
+          </div>
+        </div>
+      </div>
     </div>
-  </nav>
-);
-
-const Hero = () => {
-  return (
-    <section className="hero">
-      <h1 className="hero-title">
-        Creative<br />
-        <span className="solid">Fullstack</span><br />
-        Developer
-      </h1>
-
-      <div className="hero-bottom-grid">
-        <p className="hero-desc">
-          I build robust brutalist architectures and highly functional web applications.
-          Currently architecting scaleable <span>Node.js</span> APIs & robust <span>React</span> dashboards on the cloud.
-        </p>
-        <div className="hero-profile">
-          <img src={profilePic} alt="Sandeep Portrait" />
-        </div>
-      </div>
-    </section>
   );
 };
 
-const Skills = () => {
+const SysDir = () => {
+  const projects = [
+    { perm: 'drwxr-xr-x', name: 'DevScale_Dashboard', size: '4.2K', desc: 'Real-time analytics dashboard rendering millions of rows natively. Tech: React, D3, Postgres', link: '#' },
+    { perm: 'drwxrwxr-x', name: 'EventFlow_API', size: '12K', desc: 'AWS Serverless API gateway handling robust transactional webhooks.', link: '#' },
+    { perm: 'drw-r--r--', name: 'Neural_Chat_UI', size: '8.1K', desc: 'Websocket-enabled frontend wrapper for raw LLMs with strict Redis caching layers.', link: '#' }
+  ];
+
   return (
-    <section className="section" id="about">
-      <h2 className="section-title">Core Stack</h2>
-      <div className="skills-container">
-        <div className="skill-block">
-          <h3>Frontend</h3>
-          <ul className="skill-list">
-            <li>React JS</li>
-            <li>Next.js</li>
-            <li>TypeScript</li>
-            <li>Tailwind CSS</li>
-            <li>Redux Toolkit</li>
-            <li>Framer Motion</li>
-          </ul>
-        </div>
-
-        <div className="skill-block" style={{ background: 'var(--text-color)', color: 'var(--bg-color)' }}>
-          <h3>Backend</h3>
-          <ul className="skill-list" style={{ '--accent-color': 'var(--bg-color)' }}>
-            <li>Node.js</li>
-            <li>Express JS</li>
-            <li>NestJS</li>
-            <li>GraphQL</li>
-            <li>PostgreSQL</li>
-            <li>MongoDB</li>
-          </ul>
-        </div>
-
-        <div className="skill-block">
-          <h3>Cloud / DevOps</h3>
-          <ul className="skill-list">
-            <li>Amazon Web Services</li>
-            <li>Docker & Containers</li>
-            <li>CI/CD Pipelines</li>
-            <li>Serverless Arch</li>
-            <li>Linux / Bash</li>
-            <li>Vercel / Netlify</li>
-          </ul>
-        </div>
+    <div className="panel" id="sys-dir">
+      <div className="panel-title">
+        <span>ls -la /home/sandeep/projects</span>
+        <span>total 32</span>
       </div>
-    </section>
-  );
-};
-
-const Work = () => {
-  return (
-    <section className="section" id="work">
-      <h2 className="section-title">Case Studies</h2>
-
-      <div className="project-row">
-        <div className="project-img-wrap">
-          {/* Using a placeholder gradient pattern for strong brutalist feel */}
-          <div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(45deg, #000 0, #000 10px, transparent 10px, transparent 20px)' }} />
+      <div className="panel-content dir-list">
+        <div className="dir-item">
+          <div className="dir-perms">drwxr-xr-x</div>
+          <div className="dir-name" style={{ color: "var(--sys-text)" }}>..</div>
+          <div className="dir-meta">root root <span style={{ marginLeft: '2rem' }}>4096</span></div>
         </div>
-        <div className="project-info">
-          <h3>Data Visualization Engine</h3>
-          <div className="project-tags">
-            <span className="project-tag">React</span>
-            <span className="project-tag">Node.js</span>
-            <span className="project-tag">D3.js</span>
+
+        {projects.map((p, i) => (
+          <div className="dir-item" key={i}>
+            <div className="dir-perms">{p.perm}</div>
+            <div className="dir-name">{p.name}</div>
+            <div className="dir-meta">sandeep users <span style={{ marginLeft: '1.5rem' }}>{p.size}</span></div>
+            <div className="dir-desc">{p.desc}</div>
+            <a href={p.link} className="btn-sys">./execute</a>
           </div>
-          <p className="project-desc">
-            A brutal, high-contrast analytics dashboard parsing thousands of JSON responses into highly responsive charts.
-          </p>
-          <a href="#" className="btn-brutal">View Project</a>
-        </div>
+        ))}
       </div>
-
-      <div className="project-row" style={{ borderTop: '2px solid var(--text-color)', paddingTop: '6rem' }}>
-        <div className="project-img-wrap" style={{ border: 'none', background: 'var(--text-color)' }}>
-          <div style={{ width: '100%', height: '100%', background: 'radial-gradient(circle, #fff 10%, transparent 11%), radial-gradient(circle, #fff 10%, transparent 11%)', backgroundSize: '20px 20px' }} />
-        </div>
-        <div className="project-info">
-          <h3>Microservice Gateway</h3>
-          <div className="project-tags">
-            <span className="project-tag">Express</span>
-            <span className="project-tag">AWS Gateway</span>
-          </div>
-          <p className="project-desc">
-            Engineered a proxy infrastructure heavily throttling payloads across 5 different internal banking microservices.
-          </p>
-          <a href="#" className="btn-brutal" style={{ color: 'var(--accent-color)', borderColor: 'var(--accent-color)', boxShadow: '8px 8px 0 var(--text-color)' }}>View Source</a>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 };
 
-const Footer = () => (
-  <footer className="footer-cta" id="contact">
-    <h2 className="footer-title">Let's <span>Build</span> Something.</h2>
-    <a href="mailto:hello@sandeep.com" className="btn-brutal" style={{ background: 'var(--bg-color)', color: 'var(--text-color)' }}>GET IN TOUCH</a>
-  </footer>
-);
+const SysMail = () => {
+  return (
+    <div className="panel" id="sys-mail">
+      <div className="panel-title">
+        <span>mailx - send messages</span>
+        <span>SMTP: ssl/tls</span>
+      </div>
+      <div className="panel-content" style={{ display: 'flex', justifyContent: 'center', padding: '3rem 1rem' }}>
+        <div className="contact-form">
+          <div style={{ marginBottom: '1rem', color: 'var(--sys-muted)' }}>
+            -- Execute mail daemon to contact sandeep --
+          </div>
+          <div className="input-line">
+            <span>To:</span>
+            <input type="text" className="sys-input" value="contact@sandeep.com" disabled />
+          </div>
+          <div className="input-line">
+            <span>From_Email:</span>
+            <input type="text" className="sys-input" placeholder="enter_your_email@domain.com" />
+          </div>
+          <div className="input-line">
+            <span>Subject:</span>
+            <input type="text" className="sys-input" placeholder="enter_subject_string" />
+          </div>
+          <button className="btn-action">SEND_PACKET &gt;&gt;</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const App = () => {
   return (
-    <>
-      <Cursor />
-      <MarqueeTop />
-      <Navbar />
-      <Hero />
-      <Skills />
-      <Work />
-      <Footer />
-    </>
+    <div className="layout">
+      <SysHeader />
+      <SysHero />
+      <SysHtop />
+      <SysDir />
+      <SysMail />
+      <div style={{ textAlign: 'center', color: 'var(--sys-muted)', fontSize: '0.8rem', marginTop: '1rem' }}>
+        System daemon built with React + Vite. All systems nominal.
+      </div>
+    </div>
   );
 };
 
