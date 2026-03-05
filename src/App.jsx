@@ -1,224 +1,228 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import profilePic from './assets/profile.png';
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState('Overview');
-  const [darkMode, setDarkMode] = useState(false);
+const nodesData = [
+  { id: 'core', label: '10.0.0.1 (CORE-ROUTER)', icon: '⚡', x: 50, y: 50, title: 'Profile' },
+  { id: 'skills', label: '10.0.0.2 (SKILLS-SWITCH)', icon: '⚙️', x: 20, y: 30, title: 'Compute' },
+  { id: 'projects', label: '10.0.0.3 (PROJECT-CLUSTER)', icon: '🖥️', x: 80, y: 30, title: 'Deployments' },
+  { id: 'contact', label: '10.0.0.254 (DMZ-GATEWAY)', icon: '🔒', x: 50, y: 80, title: 'External Comm' }
+];
 
-  // Toggle Theme
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    if (!darkMode) document.body.classList.add('dark-mode');
-    else document.body.classList.remove('dark-mode');
+const paths = [
+  { source: 'core', target: 'skills' },
+  { source: 'core', target: 'projects' },
+  { source: 'core', target: 'contact' },
+];
+
+const App = () => {
+  const [activeNode, setActiveNode] = useState('core');
+  const [logs, setLogs] = useState([
+    { time: '00:00:00', text: 'INIT: Topology map initialized.', type: 'info' }
+  ]);
+
+  useEffect(() => {
+    const d = new Date();
+    const time = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`;
+    setLogs(prev => [
+      { time, text: `PING: Node ${activeNode.toUpperCase()} selected. 0ms packet loss.`, type: 'success' },
+      ...prev
+    ].slice(0, 20)); // Keep last 20 logs
+  }, [activeNode]);
+
+  // Calculate coordinates for SVG lines based on percentage
+  const getLineCoords = (sourceId, targetId) => {
+    const s = nodesData.find(n => n.id === sourceId);
+    const t = nodesData.find(n => n.id === targetId);
+    return { x1: `${s.x}%`, y1: `${s.y}%`, x2: `${t.x}%`, y2: `${t.y}%` };
   };
 
-  const navTabs = ['Overview', 'Instances (Projects)', 'Compute (Skills)', 'Contact Details'];
+  const renderContent = () => {
+    switch (activeNode) {
+      case 'core':
+        return (
+          <>
+            <img src={profilePic} alt="Sandeep" className="profile-img" />
+            <br />
+            <h3>Node Alias: Sandeep</h3>
+            <p><strong>Uptime:</strong> ~4 Years Exp<br /><strong>Role:</strong> Fullstack Architect<br /><strong>Bandwidth:</strong> High availability.</p>
+            <p style={{ color: "var(--net-text)" }}>
+              Transmitting scalable infrastructure code and React applications globally. Specialized in resolving high-latency cloud architectures and optimizing front-end render trees.
+            </p>
+          </>
+        );
+      case 'skills':
+        return (
+          <>
+            <h3>Compute Modules Loaded</h3>
+            <p style={{ fontFamily: 'var(--font-mono)', color: 'var(--net-text)', fontSize: '0.85rem' }}>Running diagnostic on installed packages...</p>
+
+            <h4 style={{ marginTop: '1rem', marginBottom: '0.5rem', color: 'var(--net-orange)' }}>Frontend Sub-systems</h4>
+            <div>
+              <span className="tech-tag">React.js</span>
+              <span className="tech-tag">Next.js</span>
+              <span className="tech-tag">TypeScript</span>
+              <span className="tech-tag">Redux</span>
+            </div>
+
+            <h4 style={{ marginTop: '1.5rem', marginBottom: '0.5rem', color: 'var(--net-orange)' }}>Backend Sub-systems</h4>
+            <div>
+              <span className="tech-tag">Node.js</span>
+              <span className="tech-tag">Express</span>
+              <span className="tech-tag">PostgreSQL</span>
+              <span className="tech-tag">GraphQL</span>
+            </div>
+
+            <h4 style={{ marginTop: '1.5rem', marginBottom: '0.5rem', color: 'var(--net-orange)' }}>Cloud Infrastructure</h4>
+            <div>
+              <span className="tech-tag">AWS Lambda</span>
+              <span className="tech-tag">Docker</span>
+              <span className="tech-tag">VPC</span>
+              <span className="tech-tag">CI/CD</span>
+            </div>
+          </>
+        );
+      case 'projects':
+        return (
+          <>
+            <h3>Active Project Clusters</h3>
+
+            <div className="project-box">
+              <h4 style={{ color: 'var(--net-cyan)' }}>DevScale Telemetry UI</h4>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                Processed millions of telemetry packets using a scalable React dashboard and Node.js ingestion pipeline.
+              </p>
+              <div style={{ marginTop: '0.5rem' }}>
+                <span className="tech-tag">React</span><span className="tech-tag">Node.js</span>
+              </div>
+            </div>
+
+            <div className="project-box">
+              <h4 style={{ color: 'var(--net-cyan)' }}>Serverless API Mesh</h4>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                AWS driven web-hooks routing massive data payloads without packet delays. Highly scalable auto-scaling architecture.
+              </p>
+              <div style={{ marginTop: '0.5rem' }}>
+                <span className="tech-tag">AWS Lambda</span><span className="tech-tag">DynamoDB</span>
+              </div>
+            </div>
+
+            <div className="project-box">
+              <h4 style={{ color: 'var(--net-cyan)' }}>LLM Chat Socket</h4>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                Realtime bi-directional connection maintaining conversation history natively across the web layer limitlessly.
+              </p>
+              <div style={{ marginTop: '0.5rem' }}>
+                <span className="tech-tag">WebSockets</span><span className="tech-tag">Next.js</span>
+              </div>
+            </div>
+          </>
+        );
+      case 'contact':
+        return (
+          <>
+            <h3>Establish External Connection</h3>
+            <p>
+              Secure communication line is open. Awaiting handshake protocol from external peers for new opportunities or architecture discussions.
+            </p>
+            <div style={{ marginTop: '2rem' }}>
+              <h4 style={{ color: 'var(--net-blue)', marginBottom: '0.5rem' }}>Protocol: SMTP</h4>
+              <p style={{ fontFamily: 'var(--font-mono)', background: 'rgba(0,0,0,0.5)', padding: '0.5rem', border: '1px solid var(--net-border)' }}>
+                contact@sandeep.network
+              </p>
+            </div>
+
+            <a href="mailto:contact@sandeep.network" className="btn-net">INITIATE HANDSHAKE</a>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
+    <div className="noc-dashboard">
 
-      {/* Global Navigation Bar */}
-      <nav className="global-nav">
-        <div className="global-nav-left">
-          <div className="aws-logo">
-            aws <span className="aws-logo-smile">⌣</span>
+      {/* Header */}
+      <header className="noc-header">
+        <div className="noc-title">
+          <div className="pulsing-dot"></div>
+          GLOBAL NET.MAP // SANDEEP_DEV
+        </div>
+        <div className="noc-stats">
+          <div>LATENCY: <span className="stat-val">12ms</span></div>
+          <div>PACKET LOSS: <span className="stat-val">0.00%</span></div>
+          <div>STATUS: <span className="stat-val" style={{ color: 'var(--net-cyan)' }}>LINK UP</span></div>
+        </div>
+      </header>
+
+      {/* Sidebar - Terminal/Logs */}
+      <aside className="noc-sidebar">
+        <div className="sidebar-title">System Event Viewer</div>
+        <div className="log-container">
+          {logs.map((log, i) => (
+            <div key={i} className="log-entry">
+              <span className="log-time">[{log.time}]</span>
+              <span className={`log-msg ${log.type === 'success' ? 'success' : ''} ${log.type === 'info' ? 'highlight' : ''}`}>
+                {log.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      {/* Main Map Viewer */}
+      <main className="network-map">
+
+        {/* SVG Path Connections */}
+        <svg className="network-svg">
+          {paths.map((p, i) => {
+            const coords = getLineCoords(p.source, p.target);
+            const isActive = activeNode === p.source || activeNode === p.target;
+            return (
+              <line
+                key={i}
+                x1={coords.x1} y1={coords.y1}
+                x2={coords.x2} y2={coords.y2}
+                className={`net-line ${isActive ? 'active' : ''}`}
+                style={{
+                  animation: isActive ? 'dash-active 2s linear infinite' : 'dash 10s linear infinite'
+                }}
+              />
+            );
+          })}
+        </svg>
+
+        {/* Nodes */}
+        {nodesData.map((node) => (
+          <div
+            key={node.id}
+            className={`net-node ${activeNode === node.id ? 'active' : ''}`}
+            style={{ left: `${node.x}%`, top: `${node.y}%` }}
+            onClick={() => setActiveNode(node.id)}
+          >
+            <div className="node-icon-wrapper">
+              <div className="node-icon">{node.icon}</div>
+            </div>
+            <div className="node-label">{node.label}</div>
           </div>
-          <div className="nav-item">Services</div>
-          <div className="search-bar">🔍 Search for services, features, blogs, docs, and more...</div>
+        ))}
+
+        {/* Info Panel corresponding to active node */}
+        <div className="node-details">
+          <div className="details-header">
+            <div className="pulsing-dot" style={{ background: 'var(--net-cyan)', boxShadow: 'none' }}></div>
+            <h2>NODE_DATA: {activeNode.toUpperCase()}</h2>
+            <div style={{ flexGrow: 1 }}></div>
+            <div className="details-badge">SECURE</div>
+          </div>
+          <div className="details-content">
+            {renderContent()}
+          </div>
         </div>
 
-        <div className="global-nav-right">
-          <div className="nav-item shell-icon">&gt;_</div>
-          <div className="nav-item bell-icon">🔔</div>
-          <div className="nav-item">sandeep-cloud-admin</div>
-          <div className="nav-item">Global</div>
-          <div className="nav-item">Support</div>
-          <span onClick={toggleTheme} className="nav-item" style={{ cursor: 'pointer' }}>
-            {darkMode ? '☀️' : '🌙'}
-          </span>
-        </div>
-      </nav>
+      </main>
 
-      {/* Service Header */}
-      <div className="service-nav">
-        Amazon Portfolio Service (APS)
-      </div>
-
-      <div className="main-wrapper">
-        {/* Sidebar */}
-        <aside className="sidebar">
-          <div className="sidebar-heading">APS Management</div>
-          <ul className="sidebar-menu">
-            {navTabs.map(tab => (
-              <li key={tab} className={`sidebar-item ${activeTab === tab ? 'active' : ''}`}>
-                <a href={`#${tab.split(' ')[0]}`} onClick={(e) => { e.preventDefault(); setActiveTab(tab); }}>{tab}</a>
-              </li>
-            ))}
-          </ul>
-        </aside>
-
-        {/* Content Area */}
-        <main className="content-area">
-          <div className="page-header">
-            <div>
-              <h1 className="page-title">{activeTab.split(' ')[0]} dashboard</h1>
-              <p className="page-subtitle">Manage your Fullstack engineering resources and deployments.</p>
-            </div>
-            <div>
-              <button className="aws-btn" style={{ marginRight: '0.5rem' }}>Actions ▼</button>
-              <button className="aws-btn aws-btn-primary">Launch instance</button>
-            </div>
-          </div>
-
-          {activeTab === 'Overview' && (
-            <div className="aws-panel" id="Overview">
-              <div className="aws-panel-header">Engineer Resource details</div>
-              <div className="aws-panel-body">
-                <div className="profile-grid">
-                  <div>
-                    <img src={profilePic} alt="Profile" className="profile-pic" />
-                  </div>
-                  <div className="profile-details">
-                    <p>
-                      <strong>Sandeep — Fullstack Engineering Architect</strong><br />
-                      Providing scalable web application development, cloud deployment orchestration, and seamless frontend integrations.
-                    </p>
-                    <div className="prop-grid">
-                      <div>
-                        <div className="prop-label">Instance state</div>
-                        <div className="prop-value status-badge">Running</div>
-                      </div>
-                      <div>
-                        <div className="prop-label">Instance type</div>
-                        <div className="prop-value aws-link">t3.large-developer</div>
-                      </div>
-                      <div>
-                        <div className="prop-label">Location (Region)</div>
-                        <div className="prop-value">ap-south-1 (Remote)</div>
-                      </div>
-                      <div>
-                        <div className="prop-label">IAM Role</div>
-                        <div className="prop-value aws-link">AdminFullAccess</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'Compute (Skills)' && (
-            <div className="aws-panel" id="Compute">
-              <div className="aws-panel-header">Deployed Tech Stack details</div>
-              <div className="aws-panel-body">
-                <p style={{ marginBottom: '1.5rem', color: 'var(--aws-text)' }}>
-                  The following technology services are actively configured across development environments.
-                </p>
-                <div className="prop-grid">
-                  <div>
-                    <div className="prop-label">Frontend Capabilities</div>
-                    <div className="prop-value">
-                      <span className="resource-tag">React.js</span>
-                      <span className="resource-tag">Next.js</span>
-                      <span className="resource-tag">TypeScript</span>
-                      <span className="resource-tag">Redux</span>
-                      <span className="resource-tag">TailwindCSS</span>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="prop-label">Backend Architecture</div>
-                    <div className="prop-value">
-                      <span className="resource-tag">Node.js</span>
-                      <span className="resource-tag">Express.js</span>
-                      <span className="resource-tag">PostgreSQL</span>
-                      <span className="resource-tag">MongoDB</span>
-                      <span className="resource-tag">GraphQL</span>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="prop-label">Cloud Infrastructure</div>
-                    <div className="prop-value">
-                      <span className="resource-tag">AWS Lambda</span>
-                      <span className="resource-tag">API Gateway</span>
-                      <span className="resource-tag">S3</span>
-                      <span className="resource-tag">DynamoDB</span>
-                      <span className="resource-tag">EC2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'Instances (Projects)' && (
-            <div className="aws-panel" id="Instances">
-              <div className="aws-panel-header">Running Projects (3)</div>
-
-              <table className="aws-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: '30px' }}><input type="checkbox" /></th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Type / Stack</th>
-                    <th>Public IPv4 / Link</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="checkbox" /></td>
-                    <td><a href="#" className="aws-link">DevScale-Monitoring-Dashboard</a></td>
-                    <td><span className="status-badge">Running</span></td>
-                    <td>React, Node, Postgres</td>
-                    <td><a href="#" className="aws-link">View Source</a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" /></td>
-                    <td><a href="#" className="aws-link">Serverless-Event-API-Gateway</a></td>
-                    <td><span className="status-badge">Running</span></td>
-                    <td>AWS Step Functions</td>
-                    <td><a href="#" className="aws-link">View Source</a></td>
-                  </tr>
-                  <tr>
-                    <td><input type="checkbox" /></td>
-                    <td><a href="#" className="aws-link">Neural-Chat-LLM-Interface</a></td>
-                    <td><span className="status-badge">Running</span></td>
-                    <td>Next.js, Redis CACHE</td>
-                    <td><a href="#" className="aws-link">View Source</a></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style={{ padding: '1rem', borderTop: '1px solid var(--aws-border)' }}>
-                <button className="aws-btn aws-btn-primary">View all resource groups</button>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'Contact Details' && (
-            <div className="aws-panel" id="Contact">
-              <div className="aws-panel-header">Contact Information & Support</div>
-              <div className="aws-panel-body">
-                <p style={{ marginBottom: '1rem' }}>
-                  Open a new technical support ticket or initiate a direct connection protocol to discuss opportunities.
-                </p>
-                <div className="prop-grid" style={{ marginBottom: '2rem' }}>
-                  <div>
-                    <div className="prop-label">Primary Email / Initial Contact</div>
-                    <div className="prop-value"><a href="mailto:hello@sandeepcloud.com" className="aws-link">hello@sandeepcloud.com</a></div>
-                  </div>
-                  <div>
-                    <div className="prop-label">GitHub Repository Link</div>
-                    <div className="prop-value"><a href="#" className="aws-link">github.com/sandeep</a></div>
-                  </div>
-                </div>
-                <button className="aws-btn aws-btn-primary">Create Support Case</button>
-              </div>
-            </div>
-          )}
-
-        </main>
-      </div>
     </div>
   );
 };
