@@ -2,230 +2,189 @@ import React, { useEffect, useState } from 'react';
 import './index.css';
 import profilePic from './assets/profile.png';
 
-const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
+const Sidebar = () => {
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container nav-container">
-        <a href="#" className="nav-logo">Sandeep<span className="text-gradient">.Dev</span></a>
-
-        <div className="nav-links">
-          <a href="#home">Start</a>
-          <a href="#experience">Experience</a>
-          <a href="#work">Showcase</a>
-          <a href="#contact">Contact</a>
-        </div>
+    <nav className="sidebar">
+      <div className="logo-stamp">SYS_CORE_V1</div>
+      <div className="nav-line">
+        <a href="#init" className="nav-btn" data-tip="Init()"><span className="mono">[0]</span></a>
+        <a href="#skills" className="nav-btn" data-tip="Skills()"><span className="mono">[1]</span></a>
+        <a href="#work" className="nav-btn" data-tip="Projects()"><span className="mono">[2]</span></a>
+        <a href="#comms" className="nav-btn" data-tip="CommLink()"><span className="mono">[3]</span></a>
       </div>
     </nav>
   );
 };
 
-const Hero = () => {
+const GlitchText = ({ text }) => {
   return (
-    <section id="home" className="hero container">
-      <div className="grid-2">
-        <div className="hero-content">
-          <div className="hero-greeting">👋 Creative Technologist</div>
-          <h1 className="hero-title">
-            I Engineer <br />
-            <span className="text-gradient">Digital Magic.</span>
-          </h1>
-          <p className="hero-subtitle">
-            Hi, I'm Sandeep. A Fullstack Engineer blurring the line between beautiful design and complex backend architecture. I build scalable applications with Node.js, React, and AWS.
+    <div className="glitch-wrapper">
+      <h1 className="glitch" data-text={text}>{text}</h1>
+    </div>
+  );
+};
+
+const MainView = () => {
+  return (
+    <main className="main-view">
+      <div className="bento-grid">
+
+        {/* PANEL: HERO */}
+        <div className="panel panel-hero" id="init">
+          <div className="hero-text-content">
+            <div className="sys-status">
+              <span>&#x25A0;</span> SYS.ONLINE // CONNECTION SECURED
+            </div>
+            <div>
+              <span className="mono" style={{ color: 'var(--cyber-blue)', fontSize: '1.2rem' }}>&gt; hello_world()</span>
+            </div>
+            <GlitchText text="SANDEEP" />
+            <h2 className="mono" style={{ color: 'var(--cyber-pink)', marginTop: '0.5rem', fontSize: '2rem' }}>.DEV</h2>
+            <p className="hero-sub">
+              Fullstack Architect. Constructing digital realities in Node.js, React, and AWS.
+              Bridging the gap between raw data streams and human interfaces.
+            </p>
+          </div>
+
+          <div className="profile-scan">
+            <div className="scanner-line"></div>
+            <img src={profilePic} alt="Sandeep Avatar" />
+            <div className="scan-data">
+              <div>BIO_METRICS: VERIFIED</div>
+              <div>AUTH_LVL: OMEGA</div>
+              <div>LOC: CLOUD_SECTOR_7</div>
+            </div>
+          </div>
+        </div>
+
+        {/* PANEL: SKILLS TERMINAL */}
+        <div className="panel panel-skills" id="skills">
+          <div className="panel-header">
+            <span>TERMINAL.exe</span>
+            <span className="icon">&#9881;</span>
+          </div>
+          <div className="terminal-block">
+            <div className="cmd-line">
+              <span className="prompt">sandeep@host:~$</span>
+              <span className="cmd">npm show stack --frontend</span>
+            </div>
+            <div className="skill-output">
+              <span className="skill-tag">React.js</span>
+              <span className="skill-tag">Next.js</span>
+              <span className="skill-tag">TypeScript</span>
+              <span className="skill-tag">Tailwind</span>
+              <span className="skill-tag">Redux</span>
+            </div>
+
+            <div className="cmd-line">
+              <span className="prompt">sandeep@host:~$</span>
+              <span className="cmd">npm show stack --backend</span>
+            </div>
+            <div className="skill-output">
+              <span className="skill-tag">Node.js</span>
+              <span className="skill-tag">Express</span>
+              <span className="skill-tag">PostgreSQL</span>
+              <span className="skill-tag">MongoDB</span>
+              <span className="skill-tag">GraphQL</span>
+            </div>
+
+            <div className="cmd-line">
+              <span className="prompt">sandeep@host:~$</span>
+              <span className="cmd">aws configure get core</span>
+            </div>
+            <div className="skill-output">
+              <span className="skill-tag">Lambda</span>
+              <span className="skill-tag">EC2</span>
+              <span className="skill-tag">DynamoDB</span>
+              <span className="skill-tag">S3</span>
+              <span className="skill-tag">Docker</span>
+            </div>
+
+            <div className="cmd-line">
+              <span className="prompt">sandeep@host:~$</span><span className="cmd" style={{ animation: 'blink 1s infinite' }}>_</span>
+            </div>
+          </div>
+        </div>
+
+        {/* PANEL: PROJECT 1 */}
+        <div className="panel panel-project proj-1" id="work">
+          <div className="panel-header" style={{ border: 'none', marginBottom: 0 }}>
+            <span className="mono" style={{ color: 'var(--text-dim)' }}>// 01 ARCHIVE</span>
+          </div>
+          <h3 className="proj-title">DevScale Engine</h3>
+          <p className="proj-desc">
+            A high-performance analytics dashboard for engineering teams. Processes millions of metric points through a custom-built data pipeline and visualizes them natively.
           </p>
-          <div className="hero-actions">
-            <a href="#work" className="btn btn-primary">See my work</a>
-            <a href="#contact" className="btn btn-outline">Let's talk</a>
+          <div className="tech-stack">
+            <span>[ React ]</span>
+            <span>[ Node.js ]</span>
+            <span>[ PostgreSQL ]</span>
+          </div>
+          <div className="proj-links">
+            <a href="#" className="proj-btn">DEMO.exe</a>
+            <a href="#" className="proj-btn">SRC_CODE</a>
           </div>
         </div>
 
-        <div className="hero-visuals">
-          <div className="profile-frame">
-            <div className="profile-backdrop"></div>
-            <img src={profilePic} alt="Sandeep portrait" className="profile-img" />
-
-            <div className="floating-badge badge-1">
-              <div className="badge-icon">🚀</div>
-              <div className="badge-text">
-                <div>Fast & Scalable</div>
-                <div>AWS CI/CD</div>
-              </div>
-            </div>
-
-            <div className="floating-badge badge-2">
-              <div className="badge-icon">✨</div>
-              <div className="badge-text">
-                <div>Pixel Perfect</div>
-                <div>React / Tailwind</div>
-              </div>
-            </div>
+        {/* PANEL: PROJECT 2 */}
+        <div className="panel panel-project proj-2">
+          <div className="panel-header" style={{ border: 'none', marginBottom: 0 }}>
+            <span className="mono" style={{ color: 'var(--text-dim)' }}>// 02 ARCHIVE</span>
+          </div>
+          <h3 className="proj-title">EventFlow API</h3>
+          <p className="proj-desc">
+            Serverless architecture built heavily on AWS event-driven patterns. Handles secure transactional webhooks at massive scale without dropping packets.
+          </p>
+          <div className="tech-stack">
+            <span>[ API Gateway ]</span>
+            <span>[ Lambda ]</span>
+          </div>
+          <div className="proj-links">
+            <a href="#" className="proj-btn">DEMO.exe</a>
+            <a href="#" className="proj-btn">SRC_CODE</a>
           </div>
         </div>
+
+        {/* PANEL: PROJECT 3 */}
+        <div className="panel panel-project proj-3">
+          <div className="panel-header" style={{ border: 'none', marginBottom: 0 }}>
+            <span className="mono" style={{ color: 'var(--text-dim)' }}>// 03 ARCHIVE</span>
+          </div>
+          <h3 className="proj-title">Neural Chat UI</h3>
+          <p className="proj-desc">
+            A completely accessible wrapper around LLMs with real-time websocket streaming, caching, and chat history utilizing a slick, minimal frontend.
+          </p>
+          <div className="tech-stack">
+            <span>[ TypeScript ]</span>
+            <span>[ Next.js ]</span>
+            <span>[ Redis ]</span>
+          </div>
+          <div className="proj-links">
+            <a href="#" className="proj-btn">DEMO.exe</a>
+            <a href="#" className="proj-btn">SRC_CODE</a>
+          </div>
+        </div>
+
+        {/* PANEL: CONTACT */}
+        <div className="panel panel-contact" id="comms">
+          <div className="contact-headline mono text-gradient">ESTABLISH_UPLINK()</div>
+          <p style={{ color: 'var(--text-dim)', maxWidth: '500px' }}>
+            Seeking new engineering challenges or architecture discussions? Open a secure transmission line directly to my inbox.
+          </p>
+          <a href="mailto:contact@sandeep-dev.com" className="btn-large">TRANSMIT_DATA</a>
+        </div>
+
       </div>
-    </section>
-  );
-};
-
-const Experience = () => {
-  return (
-    <section id="experience" className="section container">
-      <div className="section-head">
-        <span className="section-tag">Career Journey</span>
-        <h2 className="section-title">Where I've <span className="text-gradient">Engineered</span></h2>
-      </div>
-
-      <div className="timeline">
-        <div className="timeline-item">
-          <div className="timeline-content">
-            <div className="timeline-date">2023 — Present</div>
-            <h3 className="timeline-title">Senior Fullstack Developer</h3>
-            <div className="timeline-company">🏢 TechNova Solutions</div>
-            <p className="timeline-desc">
-              Led the migration of legacy REST APIs to a highly performant GraphQL federation. Architected the main client dashboard using Next.js, resulting in a 40% performance boost globally.
-            </p>
-          </div>
-        </div>
-
-        <div className="timeline-item">
-          <div className="timeline-content">
-            <div className="timeline-date">2021 — 2023</div>
-            <h3 className="timeline-title">Backend Software Engineer</h3>
-            <div className="timeline-company">☁️ CloudScale Inc.</div>
-            <p className="timeline-desc">
-              Designed and deployed serverless microservices on AWS Lambda. Built heavy data-processing pipelines processing over 1M events daily with DynamoDB and event-driven architecture.
-            </p>
-          </div>
-        </div>
-
-        <div className="timeline-item">
-          <div className="timeline-content">
-            <div className="timeline-date">2019 — 2021</div>
-            <h3 className="timeline-title">Frontend Developer</h3>
-            <div className="timeline-company">🎨 PixelCreative Agency</div>
-            <p className="timeline-desc">
-              Authored rich interactive web experiences and component libraries from scratch using React, Redux, and custom CSS animations for top-tier e-commerce brands.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Works = () => {
-  return (
-    <section id="work" className="section container">
-      <div className="section-head">
-        <span className="section-tag">Portfolio Showcase</span>
-        <h2 className="section-title">Selected <span className="text-gradient">Projects</span></h2>
-      </div>
-
-      <div className="works-grid">
-        {/* Card 1 - Large */}
-        <div className="work-card work-card-1">
-          <div className="work-bg work-bg-1"></div>
-          <div className="work-content">
-            <div className="work-tags">
-              <span className="w-tag">React</span>
-              <span className="w-tag">Node.js</span>
-            </div>
-            <h3 className="work-title">E-Commerce Ecosystem</h3>
-            <a href="#" className="work-link">Explore Case Study &rarr;</a>
-          </div>
-        </div>
-
-        {/* Card 2 - Small */}
-        <div className="work-card work-card-2">
-          <div className="work-bg work-bg-2"></div>
-          <div className="work-content">
-            <div className="work-tags">
-              <span className="w-tag">AWS Gateway</span>
-            </div>
-            <h3 className="work-title">Serverless Auth</h3>
-            <a href="#" className="work-link">View Source &rarr;</a>
-          </div>
-        </div>
-
-        {/* Card 3 - Small */}
-        <div className="work-card work-card-4">
-          <div className="work-bg work-bg-3"></div>
-          <div className="work-content">
-            <div className="work-tags">
-              <span className="w-tag">WebSockets</span>
-            </div>
-            <h3 className="work-title">Realtime Canvas</h3>
-            <a href="#" className="work-link">Waitlist Beta &rarr;</a>
-          </div>
-        </div>
-
-        {/* Card 4 - Large */}
-        <div className="work-card work-card-3">
-          <div className="work-bg work-bg-4"></div>
-          <div className="work-content">
-            <div className="work-tags">
-              <span className="w-tag">Next.js</span>
-              <span className="w-tag">PostgreSQL</span>
-            </div>
-            <h3 className="work-title">Analytics Engine AI</h3>
-            <a href="#" className="work-link">Explore Live Site &rarr;</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const CallToAction = () => {
-  return (
-    <section id="contact" className="cta-section container">
-      <div className="cta-box">
-        <h2 className="cta-title">Have an interesting project?</h2>
-        <p className="hero-subtitle" style={{ margin: '0 auto 2rem' }}>
-          I'm currently open for new opportunities. Let's create something awesome together.
-        </p>
-        <a href="mailto:contact@url.com" className="btn btn-primary" style={{ padding: '1.25rem 3rem', fontSize: '1.2rem' }}>
-          Drop me a line
-        </a>
-      </div>
-    </section>
-  );
-};
-
-const Footer = () => {
-  return (
-    <footer className="footer container">
-      <div className="social-links">
-        <a href="#">GitHub</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Twitter</a>
-        <a href="#">Dribbble</a>
-      </div>
-      <p>&copy; {new Date().getFullYear()} Sandeep. Designed & Built flawlessly.</p>
-    </footer>
+    </main>
   );
 };
 
 function App() {
   return (
-    <>
-      <div className="bg-mesh">
-        <div className="orb orb-1"></div>
-        <div className="orb orb-2"></div>
-      </div>
-      <Navbar />
-      <Hero />
-      <Experience />
-      <Works />
-      <CallToAction />
-      <Footer />
-    </>
+    <div className="layout">
+      <Sidebar />
+      <MainView />
+    </div>
   );
 }
 
