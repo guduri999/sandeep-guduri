@@ -19,6 +19,7 @@ const Header = () => {
         <a href="#" className="logo">Sandeep Guduri</a>
         <nav className="nav-links">
           <a href="#about">About</a>
+          <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
@@ -73,6 +74,40 @@ const Skills = () => {
                 <span className="skill-tag" key={i}>{tag}</span>
               ))}
             </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Experience = () => {
+  const experiences = [
+    {
+      role: "Fullstack Engineer",
+      company: "Tech Solutions Inc.",
+      duration: "2021 - Present",
+      desc: "Developed and maintained scalable web applications utilizing Node.js, React, and AWS. Improved API response times by 30% through caching and query optimization.",
+    },
+    {
+      role: "Frontend Developer",
+      company: "Digital Innovations",
+      duration: "2019 - 2021",
+      desc: "Built responsive and accessible user interfaces using React and Redux. Collaborated with UX designers to implement pixel-perfect component architectures.",
+    }
+  ];
+
+  return (
+    <section id="experience" className="container" style={{ background: 'var(--secondary-bg)', padding: '4rem 3rem', borderRadius: '16px', border: '1px solid var(--border-color)' }}>
+      <h2 className="section-title">Work Experience</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+        {experiences.map((exp, idx) => (
+          <div key={idx} style={{ borderLeft: '4px solid var(--primary-color)', paddingLeft: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.25rem' }}>{exp.role}</h3>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '0.75rem', fontWeight: '500' }}>
+              {exp.company} &bull; {exp.duration}
+            </div>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: '1.6' }}>{exp.desc}</p>
           </div>
         ))}
       </div>
@@ -151,6 +186,7 @@ function App() {
     <>
       <Header />
       <Hero />
+      <Experience />
       <Skills />
       <Projects />
       <Contact />
