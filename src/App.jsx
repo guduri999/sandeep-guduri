@@ -19,8 +19,8 @@ const Header = () => {
         <a href="#" className="logo">Sandeep Guduri</a>
         <nav className="nav-links">
           <a href="#about">About</a>
-          <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -98,7 +98,7 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="container" style={{ background: 'var(--secondary-bg)', padding: '4rem 3rem', borderRadius: '16px', border: '1px solid var(--border-color)' }}>
+    <section id="experience" className="container">
       <h2 className="section-title">Work Experience</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
         {experiences.map((exp, idx) => (
@@ -186,8 +186,8 @@ function App() {
     <>
       <Header />
       <Hero />
-      <Experience />
       <Skills />
+      <Experience />
       <Projects />
       <Contact />
       <Footer />
