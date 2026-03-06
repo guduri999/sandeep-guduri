@@ -86,7 +86,7 @@ const Experience = () => {
     {
       role: "Fullstack Software Developer (Senior Full Stack Engineer)",
       company: "DAZN",
-      duration: "Jul 2025 - Present",
+      duration: "Jul 2025 - Dec 2025",
       desc: "Developed and architected full-stack solutions with a strong focus on cloud integration. Key skills utilized: React.js, Node.js, AWS Lambda, Amazon SQS, and EventBridge.",
     },
     {
