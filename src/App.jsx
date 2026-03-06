@@ -84,16 +84,34 @@ const Skills = () => {
 const Experience = () => {
   const experiences = [
     {
-      role: "Fullstack Engineer",
-      company: "Tech Solutions Inc.",
-      duration: "2021 - Present",
-      desc: "Developed and maintained scalable web applications utilizing Node.js, React, and AWS. Improved API response times by 30% through caching and query optimization.",
+      role: "Fullstack Software Developer (Senior Full Stack Engineer)",
+      company: "DAZN",
+      duration: "Jul 2025 - Present",
+      desc: "Developed and architected full-stack solutions with a strong focus on cloud integration. Key skills utilized: React.js, Node.js, AWS Lambda, Amazon SQS, and EventBridge.",
     },
     {
-      role: "Frontend Developer",
-      company: "Digital Innovations",
-      duration: "2019 - 2021",
-      desc: "Built responsive and accessible user interfaces using React and Redux. Collaborated with UX designers to implement pixel-perfect component architectures.",
+      role: "Senior Software Engineer",
+      company: "ValueLabs",
+      duration: "Jul 2023 - Jul 2025",
+      desc: "Specialized in delivering robust enterprise solutions leveraging the MEAN stack and AWS Cloud Services. Architected highly scalable server environments.",
+    },
+    {
+      role: "Software Engineer",
+      company: "Centific",
+      duration: "Jun 2022 - Jul 2023",
+      desc: "Built scalable frontend and API interfaces utilizing Apollo GraphQL and Bootstrap. Streamlined development workflows across cross-functional engineering teams.",
+    },
+    {
+      role: "Software Developer",
+      company: "UMDAA Health Care",
+      duration: "Aug 2019 - Jun 2022",
+      desc: "Engineered critical healthcare data management infrastructure using Node.js and MySQL. Optimized database queries and constructed high-throughput API endpoints.",
+    },
+    {
+      role: "Executive",
+      company: "TeamLease Services Limited",
+      duration: "Nov 2015 - Jul 2019",
+      desc: "Developed client and server software for web-based internal tools used for network monitoring. Implemented features for assigning IP addresses, network security configuration, and network planning.",
     }
   ];
 
