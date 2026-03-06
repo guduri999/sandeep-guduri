@@ -49,7 +49,7 @@ const Skills = () => {
   const skillsData = [
     {
       title: "Frontend Development",
-      tags: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Redux"]
+      tags: ["React.js", "Next.js", "TypeScript", "Bootstrap css", "Redux"]
     },
     {
       title: "Backend Engineering",
@@ -57,7 +57,7 @@ const Skills = () => {
     },
     {
       title: "Cloud & DevOps",
-      tags: ["AWS", "Docker", "CI/CD", "Linux", "Serverless"]
+      tags: ["AWS", "Api Gateway", "CI/CD", "Linux", "Serverless"]
     }
   ];
 
@@ -130,7 +130,7 @@ const Contact = () => {
       <div className="container">
         <h2>Get in touch</h2>
         <p>I am currently open to new opportunities. Let's build something great together.</p>
-        <a href="mailto:contact@sandeeps-dev.com" className="btn btn-primary">Send an Email</a>
+        <a href="mailto:gudurisandeep999@gmail.com" className="btn btn-primary">Send an Email</a>
       </div>
     </section>
   );
