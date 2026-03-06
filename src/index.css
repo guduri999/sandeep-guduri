@@ -153,6 +153,26 @@ section {
   color: #1c1e22;
 }
 
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}
+
+.social-link {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.social-link:hover {
+  color: var(--text-main);
+}
+
 .hero-image-container {
   flex-shrink: 0;
 }
