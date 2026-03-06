@@ -1,116 +1,154 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import profilePic from './assets/profile.png';
 
-const Nav = () => (
-  <nav className="glass-panel">
-    <div className="nav-links">
-      <a href="#about">Profile</a>
-      <a href="#skills">Capabilities</a>
-      <a href="#projects">Showcase</a>
-      <a href="#contact">Reach Out</a>
-    </div>
-  </nav>
-);
+const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
 
-const Hero = () => (
-  <section id="about" className="hero container">
-    <div className="hero-box glass-panel">
-      <img src={profilePic} alt="Sandeep" className="profile-avatar" />
-      <div className="hero-badge">Sandeep / Cloud Architect</div>
-      <h1 className="hero-title">
-        Engineering <i>Fluid</i><br /> Digital Experiences.
-      </h1>
-      <p className="hero-desc">
-        A passionate Fullstack Engineer focused on elegant backends and breathtaking user interfaces. Building applications with scalable infrastructure and uncompromising design.
-      </p>
-      <a href="#contact" className="btn-primary">Start a Conversation</a>
-    </div>
-  </section>
-);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header className={scrolled ? 'scrolled' : ''}>
+      <div className="container nav-content">
+        <a href="#" className="logo">Sandeep Guduri</a>
+        <nav className="nav-links">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+  );
+};
+
+const Hero = () => {
+  return (
+    <section id="about" className="hero container">
+      <div className="hero-text">
+        <h1 className="hero-title">Building clean, modern web applications.</h1>
+        <p className="hero-desc">
+          Hi, I'm Sandeep. I'm a Fullstack Engineer specializing in Node.js, React, and cloud infrastructure. I focus on creating fast, accessible, and scalable digital experiences.
+        </p>
+        <a href="#projects" className="btn btn-primary">View my work</a>
+      </div>
+      <div className="hero-image-container">
+        <img src={profilePic} alt="Sandeep" className="hero-image" />
+      </div>
+    </section>
+  );
+};
 
 const Skills = () => {
+  const skillsData = [
+    {
+      title: "Frontend Development",
+      tags: ["React.js", "Next.js", "TypeScript", "Bootstrap css", "Redux"]
+    },
+    {
+      title: "Backend Engineering",
+      tags: ["Node.js", "Express.js", "PostgreSQL", "MongoDB", "GraphQL"]
+    },
+    {
+      title: "Cloud & DevOps",
+      tags: ["AWS", "Api Gateway", "CI/CD", "Linux", "Serverless"]
+    }
+  ];
+
   return (
     <section id="skills" className="container">
-      <h2 className="section-title">Core Capabilities</h2>
-      <div className="bento">
-        {/* Large Card */}
-        <div className="bento-card card-wide glass-panel">
-          <div className="card-icon">🏗️</div>
-          <h3 className="card-title">Backend Architecture</h3>
-          <p className="card-text">
-            Designing resilient microservices using Node.js, Express, and NestJS. Constructing highly available databases with PostgreSQL, Redis caching layers, and zero-downtime CI/CD pipelines. My primary focus is turning complex data flows into seamless APIs.
-          </p>
-        </div>
+      <h2 className="section-title">Technical Expertise</h2>
+      <div className="skills-grid">
+        {skillsData.map((category, index) => (
+          <div className="skill-category" key={index}>
+            <h3>{category.title}</h3>
+            <div className="skill-tags">
+              {category.tags.map((tag, i) => (
+                <span className="skill-tag" key={i}>{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
-        {/* Small Card */}
-        <div className="bento-card card-square glass-panel">
-          <div className="card-icon">☁️</div>
-          <h3 className="card-title">Cloud Native</h3>
-          <p className="card-text">
-            Deep expertise in AWS ecosystem: Lambda, DynamoDB, ECS, and S3. Structuring serverless paradigms for cost-effective event-driven computing.
-          </p>
-        </div>
+const Experience = () => {
+  const experiences = [
+    {
+      role: "Fullstack Engineer",
+      company: "Tech Solutions Inc.",
+      duration: "2021 - Present",
+      desc: "Developed and maintained scalable web applications utilizing Node.js, React, and AWS. Improved API response times by 30% through caching and query optimization.",
+    },
+    {
+      role: "Frontend Developer",
+      company: "Digital Innovations",
+      duration: "2019 - 2021",
+      desc: "Built responsive and accessible user interfaces using React and Redux. Collaborated with UX designers to implement pixel-perfect component architectures.",
+    }
+  ];
 
-        {/* Small Card */}
-        <div className="bento-card card-square glass-panel">
-          <div className="card-icon">✨</div>
-          <h3 className="card-title">UI / UX Engineering</h3>
-          <p className="card-text">
-            Translating high-fidelity designs into pixel-perfect React and Next.js interfaces. Focusing heavily on accessibility, micro-interactions, and 60fps performance optimizations.
-          </p>
-        </div>
-
-        {/* Large Card */}
-        <div className="bento-card card-wide glass-panel">
-          <div className="card-icon">🔐</div>
-          <h3 className="card-title">System Security</h3>
-          <p className="card-text">
-            Implementing robust authentication and authorization layers. OAuth2, JWTs, SSO integrations, and role-based access control protecting critical application data under intense traffic.
-          </p>
-        </div>
+  return (
+    <section id="experience" className="container">
+      <h2 className="section-title">Work Experience</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+        {experiences.map((exp, idx) => (
+          <div key={idx} style={{ borderLeft: '4px solid var(--primary-color)', paddingLeft: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '0.25rem' }}>{exp.role}</h3>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '0.75rem', fontWeight: '500' }}>
+              {exp.company} &bull; {exp.duration}
+            </div>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: '1.6' }}>{exp.desc}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
 };
 
 const Projects = () => {
-  const data = [
+  const projectData = [
     {
-      title: "FinTech Dashboard",
-      desc: "Real-time monetary transaction visualizer utilizing web sockets. Processed 10k events/sec flawlessly.",
-      tags: ["React", "Express", "PostgreSQL", "Tailwind"]
+      title: "Analytics Dashboard",
+      desc: "A comprehensive real-time dashboard for visualizing large-scale datasets, built with React and a high-performance Node API.",
+      links: [{ label: "Live Demo", url: "#" }, { label: "GitHub", url: "#" }]
     },
     {
-      title: "Audio Streamer App",
-      desc: "An elegant music streaming PWA built with React Native and a serverless audio-transcoding backend.",
-      tags: ["React Native", "AWS Lambda", "S3"]
+      title: "Serverless Event Mesh",
+      desc: "A scalable backend architecture utilizing AWS Lambda and API Gateway to process high-volume transactional webhooks.",
+      links: [{ label: "Architecture Specs", url: "#" }, { label: "GitHub", url: "#" }]
     },
     {
-      title: "Headless Commerce API",
-      desc: "A GraphQL backend for diverse storefronts globally. Automated inventory sync with external ERP providers.",
-      tags: ["GraphQL", "NestJS", "Stripe API"]
+      title: "Companion Chat Interface",
+      desc: "Minimalist and accessible chat application framework built around modern LLM APIs with real-time websocket support.",
+      links: [{ label: "Live Demo", url: "#" }, { label: "GitHub", url: "#" }]
     }
   ];
 
   return (
     <section id="projects" className="container">
-      <h2 className="section-title">Selected Works</h2>
+      <h2 className="section-title">Selected Projects</h2>
       <div className="projects-grid">
-        {data.map((proj, i) => (
-          <div key={i} className="proj-card glass-panel">
-            <div className="proj-img">
-              {/* Optional: <img src={...} /> could go here */}
-              <span style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-serif)", fontSize: "2rem", zIndex: 2 }}>
-                Preview
-              </span>
+        {projectData.map((project, idx) => (
+          <div className="project-card" key={idx}>
+            <div style={{ height: '180px', background: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+              Project Image
             </div>
-            <div className="proj-content">
-              <h3 className="proj-title">{proj.title}</h3>
-              <p className="proj-desc">{proj.desc}</p>
-              <div className="proj-tags">
-                {proj.tags.map((tag, j) => (
-                  <span key={j} className="tag">{tag}</span>
+            <div className="project-content">
+              <h3 className="project-title">{project.title}</h3>
+              <p className="project-desc">{project.desc}</p>
+              <div className="project-links">
+                {project.links.map((link, i) => (
+                  <a href={link.url} className="project-link" key={i}>{link.label}</a>
                 ))}
               </div>
             </div>
@@ -121,36 +159,40 @@ const Projects = () => {
   );
 };
 
-const Contact = () => (
-  <section id="contact" className="container">
-    <div className="contact-wrap glass-panel">
-      <h2>Let's build something beautiful.</h2>
-      <p style={{ color: "var(--text-muted)", marginBottom: "2rem" }}>
-        My inbox is always open. Whether you have a question or just want to engineer together.
-      </p>
-      <a href="mailto:contact@sandeep-engineer.com" className="btn-primary">Say Hello</a>
-    </div>
-  </section>
-);
-
-const App = () => {
+const Contact = () => {
   return (
-    <>
-      <div className="aurora-bg">
-        <div className="aurora a-1"></div>
-        <div className="aurora a-2"></div>
-        <div className="aurora a-3"></div>
+    <section id="contact" className="contact-section">
+      <div className="container">
+        <h2>Get in touch</h2>
+        <p>I am currently open to new opportunities. Let's build something great together.</p>
+        <a href="mailto:gudurisandeep999@gmail.com" className="btn btn-primary">Send an Email</a>
       </div>
-      <Nav />
-      <Hero />
-      <Skills />
-      <Projects />
-      <Contact />
-      <footer>
-        &copy; {new Date().getFullYear()} Sandeep. Designed with glassmorphism aesthetics.
-      </footer>
-    </>
+    </section>
   );
 };
+
+const Footer = () => {
+  return (
+    <footer>
+      <div className="container">
+        <p>&copy; {new Date().getFullYear()} Sandeep Guduri. Designed with simplicity.</p>
+      </div>
+    </footer>
+  );
+};
+
+function App() {
+  return (
+    <>
+      <Header />
+      <Hero />
+      <Skills />
+      <Experience />
+      <Projects />
+      <Contact />
+      <Footer />
+    </>
+  );
+}
 
 export default App;
