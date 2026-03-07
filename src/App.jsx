@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import profilePic from './assets/profile.png';
+import profilePic from './assets/profile1.png';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -37,7 +37,13 @@ const Hero = () => {
         <p className="hero-desc">
           Hi, I'm Sandeep. I'm a Fullstack Engineer specializing in Node.js, React, and cloud infrastructure. I focus on creating fast, accessible, and scalable digital experiences.
         </p>
-        <a href="#projects" className="btn btn-primary">View my work</a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+          <a href="#projects" className="btn btn-primary">View my work</a>
+          <div className="social-links" style={{ marginTop: 0 }}>
+            <a href="https://www.linkedin.com/in/sandeep-guduri/" target="_blank" rel="noopener noreferrer" className="social-link">LinkedIn</a>
+            <a href="https://naukri.com/" target="_blank" rel="noopener noreferrer" className="social-link">Naukri</a>
+          </div>
+        </div>
       </div>
       <div className="hero-image-container">
         <img src={profilePic} alt="Sandeep" className="hero-image" />
@@ -136,19 +142,24 @@ const Experience = () => {
 const Projects = () => {
   const projectData = [
     {
-      title: "Analytics Dashboard",
-      desc: "A comprehensive real-time dashboard for visualizing large-scale datasets, built with React and a high-performance Node API.",
-      links: [{ label: "Live Demo", url: "#" }, { label: "GitHub", url: "#" }]
-    },
-    {
-      title: "Serverless Event Mesh",
-      desc: "A scalable backend architecture utilizing AWS Lambda and API Gateway to process high-volume transactional webhooks.",
+      title: "Serverless Event Mesh (AWS Architecture)",
+      desc: "Architected an event-driven microservices platform utilizing AWS Lambda, Amazon SQS, and EventBridge. Designed to decouple order processing and inventory management, scaling automatically to handle 10x traffic spikes with zero downtime.",
       links: [{ label: "Architecture Specs", url: "#" }, { label: "GitHub", url: "#" }]
     },
     {
-      title: "Companion Chat Interface",
-      desc: "Minimalist and accessible chat application framework built around modern LLM APIs with real-time websocket support.",
+      title: "Real-time Telemetry Dashboard",
+      desc: "Engineered a high-throughput monitoring dashboard processing 10k+ events/sec. Utilized React with WebSockets for the frontend and a Node.js/Redis caching layer for real-time ingestion, reducing data latency by 45%.",
       links: [{ label: "Live Demo", url: "#" }, { label: "GitHub", url: "#" }]
+    },
+    {
+      title: "Healthcare Provider Portal (MEAN Stack)",
+      desc: "Developed a comprehensive patient management API and responsive UI utilizing the MEAN stack. Integrated secure, HIPAA-compliant endpoints with MongoDB, resulting in a 30% increase in clinic operational efficiency.",
+      links: [{ label: "Case Study", url: "#" }, { label: "GitHub", url: "#" }]
+    },
+    {
+      title: "GraphQL Apollo Integration Layer",
+      desc: "Spearheaded the migration of legacy REST APIs to a unified Apollo GraphQL federated schema for a major client. Streamlined frontend data fetching, yielding a 50% decrease in network payloads for mobile and web clients.",
+      links: [{ label: "Documentation", url: "#" }, { label: "GitHub", url: "#" }]
     }
   ];
 
